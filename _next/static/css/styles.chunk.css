@@ -35,4 +35,16 @@ polygon[style*="fill:rgba(255, 255, 100, .15)"]:hover {
     width: 100%;
 }
 
+.X {
+    width: 1.3rem;
+    display: inline-block;
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Safari prior 9.0 */
+    transform: rotate(90deg); /* Standard syntax */
+}
+
+.X svg {
+    width: 1.3rem;
+}
+
 /*# sourceMappingURL=styles.chunk.css.map*/
