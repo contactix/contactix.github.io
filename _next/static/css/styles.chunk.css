@@ -47,4 +47,20 @@ polygon[style*="fill:rgba(255, 255, 100, .15)"]:hover {
     width: 1.3rem;
 }
 
+.avatar {
+    width: 30%;
+}
+
+.avatar svg {
+    width: 100%;
+}
+
+.tab {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    padding-top: 10%;
+    padding-bottom: 10%;
+}
+
 /*# sourceMappingURL=styles.chunk.css.map*/
