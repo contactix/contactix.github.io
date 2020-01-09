@@ -147,6 +147,36 @@ function (_React$Component) {
       });
     });
 
+    Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__["default"])(Object(_babel_runtime_corejs2_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(_this), "logoutAndDelete", function _callee3() {
+      var _user$providerData$;
+
+      var user, provider, authProvider;
+      return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              user = firebase__WEBPACK_IMPORTED_MODULE_12___default.a.auth().currentUser;
+              provider = (user === null || user === void 0 ? void 0 : (_user$providerData$ = user.providerData[0]) === null || _user$providerData$ === void 0 ? void 0 : _user$providerData$.providerId) === "google.com" ? "Google" : "Facebook";
+              authProvider = new firebase__WEBPACK_IMPORTED_MODULE_12___default.a.auth["".concat(provider, "AuthProvider")]();
+              _context3.next = 5;
+              return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(_base__WEBPACK_IMPORTED_MODULE_13__["default"].auth().signInWithPopup(authProvider).then(function (authData) {
+                firebase__WEBPACK_IMPORTED_MODULE_12___default.a.auth().currentUser["delete"]().then(function () {
+                  _this.setState({
+                    email: null,
+                    displayName: null,
+                    route: "Home"
+                  });
+                });
+              }));
+
+            case 5:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      });
+    });
+
     _this.state = {
       email: null,
       displayName: null,
@@ -246,7 +276,7 @@ function (_React$Component) {
         }
       })))), __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Box"], {
         display: "flex",
-        paddingY: 3
+        marginTop: 3
       }, __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Column"], {
         span: 4
       }, __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Box"], {
@@ -280,7 +310,7 @@ function (_React$Component) {
         className: "tab"
       }, __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Text"], {
         align: "center"
-      }, "Logout"))))), __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Box"], {
+      }, "Logout"))))), __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Divider"], null), __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Box"], {
         display: this.state.route === "Home" ? "block" : "none"
       }, __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Box"], {
         alignItems: "center",
@@ -292,8 +322,7 @@ function (_React$Component) {
         shape: "rounded",
         margin: 2
       }, __jsx("div", {
-        className: "avatar",
-        paddingX: 1
+        className: "avatar"
       }, __jsx(react_hexagon__WEBPACK_IMPORTED_MODULE_9___default.a, {
         backgroundImage: this.state.photo + "?type=large",
         style: {
@@ -318,8 +347,7 @@ function (_React$Component) {
         shape: "rounded",
         margin: 2
       }, __jsx("div", {
-        className: "avatar",
-        paddingX: 1
+        className: "avatar"
       }, __jsx(react_hexagon__WEBPACK_IMPORTED_MODULE_9___default.a, {
         backgroundImage: this.state.photo + "?type=large",
         style: {
@@ -349,7 +377,7 @@ function (_React$Component) {
       }, __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Button"], {
         color: "red",
         onClick: function onClick() {
-          return _this3.logout();
+          return _this3.logoutAndDelete();
         },
         text: "Logout and remove all data"
       })), __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Box"], {
