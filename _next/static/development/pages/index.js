@@ -181,7 +181,8 @@ function (_React$Component) {
       email: null,
       displayName: null,
       photo: null,
-      route: "Home"
+      route: "Home",
+      views: 0
     };
     return _this;
   }
@@ -197,6 +198,13 @@ function (_React$Component) {
             user: user
           });
         }
+      });
+      fetch("https://api.github.com/repos/contactix/contactix.github.io/traffic/views").then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        return _this2.setState({
+          views: res.count
+        });
       });
     }
   }, {
@@ -385,7 +393,12 @@ function (_React$Component) {
       }, __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Text"], {
         align: "center",
         color: "gray"
-      }, "For more information: Please contact hexacon.app@gmail.com"))))), __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Box"], {
+      }, "For more information: Please contact hexacon.app@gmail.com")), __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Box"], {
+        paddingY: 2
+      }, __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Text"], {
+        align: "center",
+        weight: "bold"
+      }, "Total ", this.state.views ? this.state.views : 0, " visistors"))))), __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Box"], {
         height: "40vh",
         paddingX: 2
       }, __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Text"], {
