@@ -102,13 +102,13 @@ function (_React$Component) {
     });
 
     Object(_babel_runtime_corejs2_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_7__["default"])(Object(_babel_runtime_corejs2_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__["default"])(_this), "authHandler", function _callee(authData) {
-      var user;
+      var user, database, myScores, scores;
       return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.async(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               user = authData.user;
-              console.log(user);
+              database = _base__WEBPACK_IMPORTED_MODULE_13__["default"].database();
 
               _this.setState({
                 email: user.email,
@@ -116,9 +116,32 @@ function (_React$Component) {
                 photo: user.photoURL
               });
 
+              myScores = database.ref("scores/" + user.uid);
+              myScores.once('value').then(function (data) {
+                if (!data || !data.val() || !data.val()[user.uid] || !data.val()[user.uid].score) myScores.set({
+                  email: user.email,
+                  displayName: user.displayName,
+                  photo: user.photoURL,
+                  score: 1000
+                });
+              });
+              scores = database.ref("scores");
+              scores.on("value", function (data) {
+                _this.setState({
+                  score: data ? data.val() ? data.val()[user.uid] ? data.val()[user.uid].score : 1000 : 1000 : 1000
+                });
+              }, function (error) {
+                console.log(error);
+              });
+
+              _this.setState({
+                scoresRef: scores,
+                myScoresRef: myScores
+              });
+
               _this.props.hideMes();
 
-            case 4:
+            case 9:
             case "end":
               return _context.stop();
           }
@@ -164,11 +187,13 @@ function (_React$Component) {
               authProvider = new firebase__WEBPACK_IMPORTED_MODULE_12___default.a.auth["".concat(provider, "AuthProvider")]();
               _context3.next = 5;
               return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.awrap(_base__WEBPACK_IMPORTED_MODULE_13__["default"].auth().signInWithPopup(authProvider).then(function (authData) {
-                firebase__WEBPACK_IMPORTED_MODULE_12___default.a.auth().currentUser["delete"]().then(function () {
-                  _this.setState({
-                    email: null,
-                    displayName: null,
-                    route: "Home"
+                _this.state.myScoresRef.remove(function () {
+                  firebase__WEBPACK_IMPORTED_MODULE_12___default.a.auth().currentUser["delete"]().then(function () {
+                    _this.setState({
+                      email: null,
+                      displayName: null,
+                      route: "Home"
+                    });
                   });
                 });
               }));
@@ -188,9 +213,12 @@ function (_React$Component) {
       email: null,
       displayName: null,
       photo: null,
+      score: null,
       route: "Home",
       views: 0,
-      disabledLogin: true
+      disabledLogin: true,
+      scoresRef: null,
+      myScoresRef: null
     };
     return _this;
   }
@@ -363,7 +391,7 @@ function (_React$Component) {
         truncate: true
       }, this.state.displayName), __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Text"], {
         truncate: true
-      }, "joined 2 years ago"))), __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Box"], {
+      }, "( ", this.state.score, " )"))), __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Box"], {
         alignItems: "center",
         direction: "row",
         display: "flex",
@@ -394,7 +422,7 @@ function (_React$Component) {
         truncate: true
       }, this.state.displayName), __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Text"], {
         truncate: true
-      }, "joined 2 years ago")))), __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Box"], {
+      }, "( ", this.state.score, " )")))), __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Box"], {
         display: this.state.route === "Logout" ? "block" : "none"
       }, __jsx(gestalt__WEBPACK_IMPORTED_MODULE_10__["Box"], {
         padding: 2,
@@ -69502,7 +69530,7 @@ function (_React$Component) {
         align: "center",
         color: "white",
         size: "sm"
-      }, "Please Sign in to play")))), __jsx(gestalt__WEBPACK_IMPORTED_MODULE_11__["Column"], {
+      }, "Please Sign in to play"), __jsx("div", null)))), __jsx(gestalt__WEBPACK_IMPORTED_MODULE_11__["Column"], {
         span: 3
       }, __jsx(_components_menu__WEBPACK_IMPORTED_MODULE_13__["default"], Object(_babel_runtime_corejs2_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, this.state, {
         hideMes: this.hideMes,
